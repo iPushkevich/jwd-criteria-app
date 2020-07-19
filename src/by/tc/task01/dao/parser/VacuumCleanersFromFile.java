@@ -1,56 +1,58 @@
 package tc.task01.dao.parser;
 
+import tc.task01.dao.exception.DaoException;
 import tc.task01.entity.Appliance;
 import tc.task01.entity.VacuumCleaner;
 import tc.task01.entity.criteria.Criteria;
-import tc.task01.entity.criteria.SearchCriteria;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class VacuumCleanersFromFile {
     private final FileParser parser = FileParser.getInstance();
 
-    public Set<Appliance> getVacuumCleanersByCriteria(Criteria criteria) {
+    public Set<Appliance> getVacuumCleanersByCriteria(Criteria criteria) throws DaoException {
         Set<Appliance> vacuumCleanersByCriteria = new HashSet<>();
         List<String> infoFromFile = parser.getOneTypeAppliancesInfo("VacuumCleaner");
+        Set<Criteria.CriteriaNameAndValue> allCriteria = criteria.getCriteria();
         String searchCriteria;
         String paramValue;
-        Map<String, Object> allCriteria = criteria.getCriteria();
 
-        for (Map.Entry<String, Object> entry : allCriteria.entrySet()) {
-            searchCriteria = entry.getKey();
-            paramValue = entry.getValue().toString();
+        for (Criteria.CriteriaNameAndValue cr : allCriteria) {
+            searchCriteria = cr.getCriteriaName();
+            paramValue = cr.getCriteriaValue().toString();
 
             for (String param : infoFromFile) {
 
                 String[] params = param.split(", ");
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.VacuumCleaner.POWER_CONSUMPTION.toString()) && params[0].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("POWER_CONSUMPTION") && params[0].split("=")[1].equalsIgnoreCase(paramValue)) {
                     vacuumCleanersByCriteria.add(createVacuumCleaner(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.VacuumCleaner.FILTER_TYPE.toString()) && params[1].split("=")[1].equalsIgnoreCase(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("FILTER_TYPE") && params[1].split("=")[1].equalsIgnoreCase(paramValue)) {
                     vacuumCleanersByCriteria.add(createVacuumCleaner(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.VacuumCleaner.BAG_TYPE.toString()) && params[2].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("BAG_TYPE") && params[2].split("=")[1].equalsIgnoreCase(paramValue)) {
                     vacuumCleanersByCriteria.add(createVacuumCleaner(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.VacuumCleaner.WAND_TYPE.toString()) && params[3].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("WAND_TYPE") && params[3].split("=")[1].equalsIgnoreCase(paramValue)) {
                     vacuumCleanersByCriteria.add(createVacuumCleaner(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.VacuumCleaner.MOTOR_SPEED_REGULATION.toString()) && params[4].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("MOTOR_SPEED_REGULATION") && params[4].split("=")[1].equalsIgnoreCase(paramValue)) {
                     vacuumCleanersByCriteria.add(createVacuumCleaner(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.VacuumCleaner.CLEANING_WIDTH.toString()) && params[5].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("CLEANING_WIDTH") && params[5].split("=")[1].equalsIgnoreCase(paramValue)) {
                     vacuumCleanersByCriteria.add(createVacuumCleaner(params));
                 }
             }

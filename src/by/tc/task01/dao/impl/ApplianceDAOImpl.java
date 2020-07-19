@@ -1,6 +1,7 @@
 package tc.task01.dao.impl;
 
 import tc.task01.dao.ApplianceDAO;
+import tc.task01.dao.exception.DaoException;
 import tc.task01.dao.parser.*;
 import tc.task01.entity.Appliance;
 import tc.task01.entity.criteria.Criteria;
@@ -10,7 +11,7 @@ import java.util.Set;
 public class ApplianceDAOImpl implements ApplianceDAO {
 
     @Override
-    public Set<Appliance> find(Criteria criteria) {
+    public Set<Appliance> find(Criteria criteria) throws DaoException {
 
         String appType = criteria.getGroupSearchName();
         Set<Appliance> appliances = null;

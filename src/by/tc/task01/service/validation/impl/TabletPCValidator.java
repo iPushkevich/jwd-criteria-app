@@ -5,9 +5,9 @@ import tc.task01.service.validation.Validator;
 
 import java.util.Set;
 
-public class LaptopValidator implements Validator {
+public class TabletPCValidator implements Validator {
 
-    public LaptopValidator() {
+    public TabletPCValidator() {
     }
 
     @Override
@@ -21,11 +21,10 @@ public class LaptopValidator implements Validator {
 
             switch (criteriaName) {
                 case "BATTERY_CAPACITY" -> isValid = checkBatteryCapacityParam(criteriaValue);
-                case "OS" -> isValid = checkOSParam(criteriaValue);
-                case "MEMORY_ROM" -> isValid = checkMemoryRomParam(criteriaValue);
-                case "SYSTEM_MEMORY" -> isValid = checkSystemMemoryParam(criteriaValue);
-                case "CPU" -> isValid = checkCPUParam(criteriaValue);
                 case "DISPLAY_INCHES" -> isValid = checkDisplayInchesParam(criteriaValue);
+                case "MEMORY_ROM" -> isValid = checkMemoryRomParam(criteriaValue);
+                case "FLASH_MEMORY_CAPACITY" -> isValid = checkFlashMemoryCapacityParam(criteriaValue);
+                case "COLOR" -> isValid = checkColorParam(criteriaValue);
             }
 
             if (!isValid){
@@ -33,7 +32,6 @@ public class LaptopValidator implements Validator {
             }
 
             isValid = true;
-
         }
 
         return true;
@@ -42,31 +40,36 @@ public class LaptopValidator implements Validator {
 
     private boolean checkBatteryCapacityParam(Object param){
         boolean check = true;
-        double value = 0;
+        int value = 0;
 
-        if (param.getClass() == Double.class){
-            value = (double) param;
-        }
-
-        else if (param.getClass() == Integer.class){
-            value = (int) param;
-        }
-
-        else {
+        if (param.getClass() == Integer.class){
             check = false;
         }
 
-        if (value < 1.0 || value > 5.5){
+        else {
+            value = (int) param;
+        }
+
+        if (value < 1 || value > 8){
             check = false;
         }
 
         return check;
     }
 
-    private boolean checkOSParam(Object param){
+    private boolean checkDisplayInchesParam(Object param){
         boolean check = true;
+        int value = 0;
 
-        if (!(param.getClass() == String.class)){
+        if (param.getClass() != Integer.class){
+            check = false;
+        }
+
+        else {
+            value = (int) param;
+        }
+
+        if (value < 7 || value > 25){
             check = false;
         }
 
@@ -93,7 +96,7 @@ public class LaptopValidator implements Validator {
         return check;
     }
 
-    private boolean checkSystemMemoryParam(Object param){
+    private boolean checkFlashMemoryCapacityParam(Object param){
         boolean check = true;
         int value = 0;
 
@@ -106,46 +109,17 @@ public class LaptopValidator implements Validator {
             value = (int) param;
         }
 
-        if (value < 100 || value > 5000){
+        if (value < 1 || value > 21){
             check = false;
         }
 
         return check;
     }
 
-    private boolean checkCPUParam(Object param){
+    private boolean checkColorParam(Object param){
         boolean check = true;
-        double value = 0;
 
-
-        if (param.getClass() != Double.class){
-            check = false;
-        }
-
-        else {
-            value = (double) param;
-        }
-
-        if (value < 0.3 || value > 10.0){
-            check = false;
-        }
-
-        return check;
-    }
-
-    private boolean checkDisplayInchesParam(Object param){
-        boolean check = true;
-        int value = 0;
-
-        if (param.getClass() != Integer.class){
-            check = false;
-        }
-
-        else {
-            value = (int) param;
-        }
-
-        if (value < 7 || value > 25){
+        if (!(param.getClass() == String.class)){
             check = false;
         }
 

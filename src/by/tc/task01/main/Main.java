@@ -1,19 +1,19 @@
 package tc.task01.main;
 
-import static tc.task01.entity.criteria.SearchCriteria.*;
-
 import tc.task01.entity.Appliance;
 import tc.task01.entity.criteria.Criteria;
-import tc.task01.entity.criteria.SearchCriteria;
 import tc.task01.service.ApplianceService;
 import tc.task01.service.ServiceFactory;
+import tc.task01.service.exception.CriteriaGroupSearchNameException;
+import tc.task01.service.exception.ServiceException;
 
-import java.util.List;
 import java.util.Set;
+
+import static tc.task01.entity.criteria.SearchCriteria.TabletPC;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ServiceException, CriteriaGroupSearchNameException {
 
 
 
@@ -41,26 +41,27 @@ public class Main {
 
 		//////////////////////////////////////////////////////////////////
 		
-//		Criteria criteriaTabletPC = new Criteria(TabletPC.class.getSimpleName());
-//		criteriaTabletPC.add(TabletPC.COLOR.toString(), "BLUE");
+		Criteria criteriaTabletPC = new Criteria(TabletPC.class.getSimpleName());
+		criteriaTabletPC.add("fd", "RfdsEd");
 //		criteriaTabletPC.add(TabletPC.DISPLAY_INCHES.toString(), 14);
-//		criteriaTabletPC.add(TabletPC.MEMORY_ROM.toString(), 8000);
-//
-//		Set<Appliance> appliance = service.find(criteriaTabletPC);// find(Object...obj)
-//
-//		PrintApplianceInfo.print(appliance);
+//		criteriaTabletPC.add(TabletPC.MEMORY_ROM.toString(), 16000);
+//		criteriaTabletPC.add(TabletPC.MEMORY_ROM.toString(), -3);
+
+		Set<Appliance> appliance = service.find(criteriaTabletPC);// find(Object...obj)
+
+		PrintApplianceInfo.print(appliance);
 
 		//////////////////////////////////////////////////////////////////
 
-		Criteria criteriaLaptop = new Criteria(Laptop.class.getSimpleName());
-		criteriaLaptop.add(Laptop.OS.toString(), 3);
-//		criteriaLaptop.add(Laptop.DISPLAY_INCHES.toString(), 14);
-		criteriaLaptop.add(Laptop.BATTERY_CAPACITY.toString(), "d");
-		criteriaLaptop.add(Laptop.SYSTEM_MEMORY.toString(), 30004444);
-
-		Set<Appliance> appliance = service.find(criteriaLaptop);// find(Object...obj)
-
-		PrintApplianceInfo.print(appliance);
+//		Criteria criteriaLaptop = new Criteria(Laptop.class.getSimpleName());
+//		criteriaLaptop.add(Laptop.OS.toString(), "WiNDOws");
+////		criteriaLaptop.add(Laptop.DISPLAY_INCHES.toString(), 14);
+//		criteriaLaptop.add("f", 5);
+//		criteriaLaptop.add("w", 4100 );
+//
+//		Set<Appliance> appliance = service.find(criteriaLaptop);// find(Object...obj)
+//
+//		PrintApplianceInfo.print(appliance);
 
 		//////////////////////////////////////////////////////////////////
 

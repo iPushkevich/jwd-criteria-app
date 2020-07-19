@@ -1,56 +1,58 @@
 package tc.task01.dao.parser;
 
+import tc.task01.dao.exception.DaoException;
 import tc.task01.entity.Appliance;
 import tc.task01.entity.Oven;
 import tc.task01.entity.criteria.Criteria;
-import tc.task01.entity.criteria.SearchCriteria;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class OvensFromFile {
     private final FileParser parser = FileParser.getInstance();
 
-    public Set<Appliance> getOvensByCriteria(Criteria criteria) {
+    public Set<Appliance> getOvensByCriteria(Criteria criteria) throws DaoException {
         Set<Appliance> ovensByCriteria = new HashSet<>();
         List<String> infoFromFile = parser.getOneTypeAppliancesInfo("Oven");
+        Set<Criteria.CriteriaNameAndValue> allCriteria = criteria.getCriteria();
         String searchCriteria;
         String paramValue;
-        Map<String, Object> allCriteria = criteria.getCriteria();
 
-        for (Map.Entry<String, Object> entry : allCriteria.entrySet()) {
-            searchCriteria = entry.getKey();
-            paramValue = entry.getValue().toString();
+        for (Criteria.CriteriaNameAndValue cr : allCriteria) {
+            searchCriteria = cr.getCriteriaName();
+            paramValue = cr.getCriteriaValue().toString();
 
             for (String param : infoFromFile) {
 
                 String[] params = param.split(", ");
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.Oven.POWER_CONSUMPTION.toString()) && params[0].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("POWER_CONSUMPTION") && params[0].split("=")[1].equalsIgnoreCase(paramValue)) {
                     ovensByCriteria.add(createOven(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.Oven.WEIGHT.toString()) && params[1].split("=")[1].equalsIgnoreCase(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("WEIGHT") && params[1].split("=")[1].equalsIgnoreCase(paramValue)) {
                     ovensByCriteria.add(createOven(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.Oven.CAPACITY.toString()) && params[2].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("CAPACITY") && params[2].split("=")[1].equalsIgnoreCase(paramValue)) {
                     ovensByCriteria.add(createOven(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.Oven.DEPTH.toString()) && params[3].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("DEPTH") && params[3].split("=")[1].equalsIgnoreCase(paramValue)) {
                     ovensByCriteria.add(createOven(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.Oven.HEIGHT.toString()) && params[4].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("HEIGHT") && params[4].split("=")[1].equalsIgnoreCase(paramValue)) {
                     ovensByCriteria.add(createOven(params));
                     continue;
                 }
 
-                if (searchCriteria.equalsIgnoreCase(SearchCriteria.Oven.WIDTH.toString()) && params[5].split("=")[1].equals(paramValue)) {
+                if (searchCriteria.equalsIgnoreCase("WIDTH") && params[5].split("=")[1].equalsIgnoreCase(paramValue)) {
                     ovensByCriteria.add(createOven(params));
                 }
             }

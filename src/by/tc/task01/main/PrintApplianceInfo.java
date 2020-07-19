@@ -7,9 +7,11 @@ import java.util.Set;
 public class PrintApplianceInfo {
 
 	public static void print(Set<Appliance> appliance) {
-		if (appliance == null) {
+		if (appliance.size() == 0) {
 			System.out.println("No result");
-		} else {
+		}
+
+		else {
 			for (Appliance value : appliance) {
 				if (value instanceof Laptop laptop) {
 					String battery_capacity = laptop.getBattery_capacity();

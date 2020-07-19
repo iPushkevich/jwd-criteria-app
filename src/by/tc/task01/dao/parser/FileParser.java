@@ -1,10 +1,6 @@
 package tc.task01.dao.parser;
 
-import tc.task01.dao.ApplianceDAO;
-import tc.task01.dao.DAOFactory;
-import tc.task01.dao.impl.ApplianceDAOImpl;
-import tc.task01.entity.Appliance;
-import tc.task01.entity.criteria.SearchCriteria;
+import tc.task01.dao.exception.DaoException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,15 +10,15 @@ public class FileParser {
     private final List<String> oneTypeAppliancesInfo = new ArrayList<>();
     private final String PATH = "resources/appliances_db";
 
-    private static final FileParser instance = new FileParser();
+    private static final FileParser INSTANCE = new FileParser();
 
     private FileParser() {}
 
     public static FileParser getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
-    public List<String> getOneTypeAppliancesInfo(String applianceType) {
+    public List<String> getOneTypeAppliancesInfo(String applianceType) throws DaoException {
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(PATH))))  {
 
             String line;
@@ -32,13 +28,13 @@ public class FileParser {
                 String[] criteriaInfo = line.split(" : ");
 
                 if (criteriaInfo[0].equals(applianceType)) {
-                    oneTypeAppliancesInfo.add(criteriaInfo[1]);
+                    oneTypeAppliancesInfo.add(criteriaInfo[1].trim());
                 }
 
             }
 
-        } catch (IOException e) {
-            System.err.println(e);
+        } catch (Exception e) {
+            throw new DaoException(e);
         }
 
         return oneTypeAppliancesInfo;
